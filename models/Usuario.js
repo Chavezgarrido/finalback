@@ -16,8 +16,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
-    // Agrega otros campos según sea necesario
   });
 
-  return Usuario; // Devuelve el modelo
+  return Usuario; 
 };
