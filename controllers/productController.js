@@ -32,7 +32,7 @@ exports.getProductByCategory = async (req, res) => {
 
     try{
         const { data: productos, error } = await supabase
-            .from('Productos)
+            .from('Productos')
             .select('*')
             .eq('categoria', categoria);
 
