@@ -29,6 +29,7 @@ exports.getProductById = async (req, res) => {
 
 exports.getProductsByCategory = async (req, res) => {
     const { categoria } = req.params;
+    console.log(`Buscando productos en la categoría: ${categoria}`);
 
     try {
         const { data: productos, error } = await supabase
