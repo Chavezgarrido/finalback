@@ -12,7 +12,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const userRoutes = require('./routes/userRoutes'); 
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 10000;
 
 // Crear el cliente de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
