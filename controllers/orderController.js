@@ -1,15 +1,14 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Crear el cliente de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 exports.getOrdersByUserId = async (req, res) => {
-    const { id } = req.params; // ID del usuario
+    const { id } = req.params;
     try {
         const { data: pedidos, error } = await supabase
-            .from('Pedidos') // Asegúrate de que esta tabla exista
+            .from('Pedidos') 
             .select('*')
             .eq('id_usuario', id);
 
@@ -24,17 +23,17 @@ exports.getOrdersByUserId = async (req, res) => {
 };
 
 exports.getOrderById = async (req, res) => {
-    const { id, pedido_id } = req.params; // ID del usuario y ID del pedido
+    const { id, pedido_id } = req.params; 
     try {
         const { data: pedido, error } = await supabase
             .from('Pedidos')
             .select('*')
             .eq('id_usuario', id)
             .eq('id', pedido_id)
-            .single(); // Obtener un solo registro
+            .single(); 
 
         if (error) {
-            if (error.code === 'PGRST116') { // PGRST116 significa que no se encontró el registro
+            if (error.code === 'PGRST116') { 
                 return res.status(404).json({ error: 'Pedido no encontrado' });
             }
             return res.status(500).json({ error: 'Error al obtener pedido', details: error.message });
