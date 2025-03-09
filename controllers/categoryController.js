@@ -1,6 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Crear el cliente de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -8,7 +7,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 exports.getAllCategories = async (req, res) => {
     try {
         const { data: categorias, error } = await supabase
-            .from('Categoria') // Asegúrate de que esta tabla exista
+            .from('Categoria') 
             .select('*');
 
         if (error) {
@@ -28,10 +27,10 @@ exports.getCategoryById = async (req, res) => {
             .from('Categoria')
             .select('*')
             .eq('id', id)
-            .single(); // Obtener un solo registro
+            .single();
 
         if (error) {
-            if (error.code === 'PGRST116') { // PGRST116 significa que no se encontró el registro
+            if (error.code === 'PGRST116') { 
                 return res.status(404).json({ error: 'Categoría no encontrada' });
             }
             return res.status(500).json({ error: 'Error al obtener categoría', details: error.message });
