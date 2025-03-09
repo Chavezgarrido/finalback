@@ -14,7 +14,6 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const port = process.env.PORT || 10000;
 
-// Crear el cliente de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -22,15 +21,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 app.use(cors());
 app.use(express.json());
 
-// Rutas de la API
-app.use('/api/auth', authRoutes); // No pasar supabase aquí
-app.use('/api/producto', productRoutes); // No pasar supabase aquí
-app.use('/api/cart', cartRoutes); // No pasar supabase aquí
-app.use('/api/categoria', categoryRoutes); // No pasar supabase aquí
-app.use('/api/pedido', orderRoutes); // No pasar supabase aquí
-app.use('/api/usuario', userRoutes); // No pasar supabase aquí
+app.use('/api/auth', authRoutes); 
+app.use('/api/producto', productRoutes); 
+app.use('/api/cart', cartRoutes); 
+app.use('/api/categoria', categoryRoutes); 
+app.use('/api/pedido', orderRoutes); 
+app.use('/api/usuario', userRoutes);
 
-// Iniciar el servidor
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
