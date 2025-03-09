@@ -15,8 +15,7 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    // Agrega otros campos según sea necesario
   });
 
-  return Producto; // Devuelve el modelo
+  return Producto;
 };
