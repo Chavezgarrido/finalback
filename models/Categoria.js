@@ -11,8 +11,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // Agrega otros campos según sea necesario
   });
 
-  return Categoria; // Devuelve el modelo
+  return Categoria;
 };
