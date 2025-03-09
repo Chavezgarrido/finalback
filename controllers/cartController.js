@@ -1,27 +1,24 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Crear el cliente de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 exports.addToCart = async (req, res) => {
-    const { id } = req.params; // ID del usuario
-    const { id_producto, cantidad } = req.body; // ID del producto y cantidad
+    const { id } = req.params; 
+    const { id_producto, cantidad } = req.body; 
 
     try {
-        // Verificar si el carrito ya existe para el usuario
         const { data: carrito, error: fetchError } = await supabase
             .from('Carrito')
             .select('*')
             .eq('id_usuario', id)
             .single();
 
-        if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 significa que no se encontró el registro
+        if (fetchError && fetchError.code !== 'PGRST116') { 
             return res.status(500).json({ error: 'Error al buscar el carrito' });
         }
 
-        // Si no existe, crear un nuevo carrito
         if (!carrito) {
             const { data: newCarrito, error: createError } = await supabase
                 .from('Carrito')
@@ -32,9 +29,8 @@ exports.addToCart = async (req, res) => {
             }
         }
 
-        // Agregar el producto al carrito
         const { data: updatedCarrito, error: addError } = await supabase
-            .from('Carrito_Productos') // Asegúrate de que esta tabla exista
+            .from('Carrito_Productos') 
             .insert([{ id_usuario: id, id_producto, cantidad }]);
 
         if (addError) {
@@ -48,11 +44,10 @@ exports.addToCart = async (req, res) => {
 };
 
 exports.removeFromCart = async (req, res) => {
-    const { id } = req.params; // ID del usuario
-    const { id_producto } = req.body; // ID del producto a eliminar
+    const { id } = req.params; 
+    const { id_producto } = req.body; 
 
     try {
-        // Eliminar el producto del carrito
         const { data, error } = await supabase
             .from('Carrito_Productos')
             .delete()
@@ -70,11 +65,11 @@ exports.removeFromCart = async (req, res) => {
 };
 
 exports.finalizePurchase = async (req, res) => {
-    const { id } = req.params; // ID del usuario
-    const { direccion_envio, metodo_pago } = req.body; // Datos de envío y método de pago
+    const { id } = req.params; 
+    const { direccion_envio, metodo_pago } = req.body; 
 
     try {
-        // Obtener el carrito del usuario
+
         const { data: carrito, error: fetchError } = await supabase
             .from('Carrito_Productos')
             .select('*')
@@ -88,22 +83,20 @@ exports.finalizePurchase = async (req, res) => {
             return res.status(400).json({ error: 'El carrito está vacío' });
         }
 
-        // Crear un nuevo pedido
         const { data: nuevoPedido, error: createError } = await supabase
             .from('Pedidos')
             .insert([{
                 id_usuario: id,
                 direccion_envio,
                 metodo_pago,
-                detalles: carrito, // Puedes ajustar esto según tu estructura
-                total: carrito.reduce((acc, producto) => acc + (producto.precio_unitario * producto.cantidad), 0), // Calcular el total
+                detalles: carrito, 
+                total: carrito.reduce((acc, producto) => acc + (producto.precio_unitario * producto.cantidad), 0), 
             }]);
 
         if (createError) {
             return res.status(500).json({ error: 'Error al crear el pedido' });
         }
 
-        // Eliminar los productos del carrito después de finalizar la compra
         const { error: deleteError } = await supabase
             .from('Carrito_Productos')
             .delete()
