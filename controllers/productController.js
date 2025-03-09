@@ -45,8 +45,3 @@ exports.getProductByCategory = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener productos' });
     }
 };
-
-module.exports = {
-    getProductById,
-    getProductsByCategory
-};
