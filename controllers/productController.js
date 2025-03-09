@@ -27,7 +27,7 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-exports.getProductByCategory = async (req, res) => {
+exports.getProductsByCategory = async (req, res) => {
     const { categoria } = req.params;
 
     try{
