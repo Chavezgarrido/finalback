@@ -1,15 +1,11 @@
-// index.js
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// Crear el cliente de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Funciones para interactuar con la base de datos
 
-// Obtener todos los usuarios
 const getUsuarios = async () => {
   const { data, error } = await supabase
     .from('Usuarios')
@@ -22,7 +18,6 @@ const getUsuarios = async () => {
   return data;
 };
 
-// Insertar un nuevo usuario
 const insertUsuario = async (usuario) => {
   const { data, error } = await supabase
     .from('Usuarios')
@@ -35,7 +30,6 @@ const insertUsuario = async (usuario) => {
   return data;
 };
 
-// Actualizar un usuario
 const updateUsuario = async (id, updates) => {
   const { data, error } = await supabase
     .from('Usuarios')
@@ -49,7 +43,6 @@ const updateUsuario = async (id, updates) => {
   return data;
 };
 
-// Eliminar un usuario
 const deleteUsuario = async (id) => {
   const { data, error } = await supabase
     .from('Usuarios')
@@ -63,7 +56,6 @@ const deleteUsuario = async (id) => {
   return data;
 };
 
-// Exportar las funciones
 module.exports = {
   getUsuarios,
   insertUsuario,
