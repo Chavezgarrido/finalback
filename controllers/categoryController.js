@@ -41,3 +41,26 @@ exports.getCategoryById = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener categoría' });
     }
 };
+
+exports.getProductsByCategory = async (req, res) => {
+    const { categoria } = req.params; 
+
+    try {
+        const { data: productos, error } = await supabase
+            .from('Productos')
+            .select('*')
+            .eq('categoria', categoria); 
+
+        if (error) {
+            return res.status(500).json({ error: 'Error al obtener productos', details: error.message });
+        }
+
+        if (!productos || productos.length === 0) {
+            return res.status(404).json({ error: 'No se encontraron productos en esta categoría' });
+        }
+
+        res.json(productos);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener productos', details: error.message });
+    }
+};
