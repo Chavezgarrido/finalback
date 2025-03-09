@@ -26,3 +26,22 @@ exports.getProductById = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener el producto' });
     }
 };
+
+exports.getProductByCategory = async (req, res) => {
+    const { categoria } = req.params;
+
+    try{
+        const { data: productos, error } = await supabase
+            .from('Productos)
+            .select('*')
+            .eq('categoria', categoria);
+
+        if (error) {
+            return res.status(500).json({ error: 'Error al obtener productos', detailes: error.message });
+        }
+
+        res.json(productos);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener productos' });
+    }
+};
