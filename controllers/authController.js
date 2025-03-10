@@ -9,15 +9,12 @@ const register = async (req, res) => {
     try {
         const { email, contraseña, nombre, apellido, tipo_usuario } = req.body;
 
-        // Validar que todos los campos requeridos estén presentes
         if (!email || !contraseña || !nombre || !apellido || !tipo_usuario) {
             return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
         }
 
-        // Hashear la contraseña
         const hashedPassword = await bcrypt.hash(contraseña, 10);
 
-        // Intentar insertar el nuevo usuario
         const { data, error } = await supabase
             .from('Usuarios')
             .insert([
@@ -28,7 +25,7 @@ const register = async (req, res) => {
                     apellido,
                     tipo_usuario,
                     fecha_registro: new Date(), 
-                    "createdAt": new Date(), /
+                    "createdAt": new Date(), 
                     "updatedAt": new Date() 
                 }
             ]);
