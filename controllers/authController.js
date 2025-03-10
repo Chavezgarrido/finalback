@@ -21,11 +21,11 @@ const register = async (req, res) => {
         .insert([
             {
                 email,
-                contraseña: contraseña, 
+                contraseña: contraseña,
                 nombre,
                 apellido,
                 tipo_usuario,
-                user_id: user.id 
+                user_id: user.id
             }
         ]);
 
@@ -33,7 +33,14 @@ const register = async (req, res) => {
         return res.status(500).json({ message: 'Error al guardar el usuario en la base de datos', error: insertError.message });
     }
 
-    res.status(201).json({ message: 'Usuario creado', userId: user.id });
+    res.status(201).json({
+        message: 'Usuario creado',
+        userId: user.id,
+        email: user.email,
+        nombre,
+        apellido,
+        tipo_usuario
+    });
 };
 
 const login = async (req, res) => {
@@ -58,7 +65,14 @@ const login = async (req, res) => {
         return res.status(500).json({ message: 'Error al obtener información del usuario', error: fetchError.message });
     }
 
-    res.json({ message: 'Inicio de sesión exitoso', userId: user.id, email: data.email });
+    res.json({
+        message: 'Inicio de sesión exitoso',
+        userId: user.id,
+        email: data.email,
+        nombre: data.nombre,
+        apellido: data.apellido,
+        tipo_usuario: data.tipo_usuario
+    });
 };
 
 module.exports = { register, login };
